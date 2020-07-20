@@ -1,48 +1,48 @@
 pipeline {
     agent any 
-    tools { 
-        maven 'Maven' 
+  //  tools { 
+    //    maven 'Maven' 
       
-    }
+    //}
 stages { 
      
- stage('Preparation') { 
-     steps {
+ //stage('Preparation') { 
+    // steps {
 // for display purpose
 
       // Get some code from a GitHub repository
 
-      git 'https://github.com/santhoshkalva/game-of-life.git'
+      // git 'https://github.com/santhoshkalva/game-of-life.git'
 
       // Get the Maven tool.
      
  // ** NOTE: This 'M3' Maven tool must be configured
  
      // **       in the global configuration.   
-     }
-   }
+     // }
+   // }
 
-   stage('Build') {
-       steps {
+   // stage('Build') {
+      // steps {
        // Run the maven build
 
       //if (isUnix()) {
-         sh 'mvn -Dmaven.test.failure.ignore=true install'
+        // sh 'mvn -Dmaven.test.failure.ignore=true install'
       //} 
       //else {
       //   bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean package/)
-       }
+       // }
 //}
-   }
+   // }
  
-  stage('Unit Test Results') {
-      steps {
-      junit '**/target/surefire-reports/TEST-*.xml'
+  // stage('Unit Test Results') {
+     // steps {
+      // junit '**/target/surefire-reports/TEST-*.xml'
       
-      }
- }
+      // }
+ // }
   //stage('Sonarqube') {
-    //environment {
+    //environment {// 
         //scannerHome = tool 'sonarqube'
     //}
     //steps {
@@ -55,11 +55,11 @@ stages {
         //}
     //}
 //}
-     stage('Artifact upload') {
-      steps {
-     nexusPublisher nexusInstanceId: '1234', nexusRepositoryId: 'releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'gameoflife-web/target/gameoflife.war']], mavenCoordinate: [artifactId: 'gameoflife', groupId: 'com.wakaleo.gameoflife', packaging: 'war', version: '$BUILD_NUMBER']]]
-      }
- }
+    // stage('Artifact upload') {
+      // steps {
+     // nexusPublisher nexusInstanceId: '1234', nexusRepositoryId: 'releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'gameoflife-web/target/gameoflife.war']], mavenCoordinate: [artifactId: 'gameoflife', groupId: 'com.wakaleo.gameoflife', packaging: 'war', version: '$BUILD_NUMBER']]]
+      // }
+// }
      stage('Deploy War') {
       steps {
    
@@ -67,12 +67,12 @@ stages {
       }
  }
 }
-post {
-        success {
-            archiveArtifacts 'gameoflife-web/target/*.war'
-        }
-        failure {
-            mail to:"raknas000@gmail.com", subject:"FAILURE: ${currentBuild.fullDisplayName}", body: "Build failed"
-        }
-    }       
+// post {
+   //     success {
+     //       archiveArtifacts 'gameoflife-web/target/*.war'
+       // }
+       // failure {
+         //   mail to:"raknas000@gmail.com", subject:"FAILURE: ${currentBuild.fullDisplayName}", body: "Build failed"
+       // }
+//    }       
 }
