@@ -1,5 +1,7 @@
 pipeline {
-    agent any 
+    agent {
+        label 'JLinux-slave'
+    }
     tools { 
         maven 'Maven' 
       
